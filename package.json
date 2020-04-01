@@ -1,0 +1,11 @@
+{
+    "name": "geospock-integrations",
+    "private": true,
+    "version": "0.0.1",
+    "description": "GeoSpock integration examples for third party visualization tools",
+    "author": "geospock",
+    "license": "MIT",
+    "devDependencies": {
+        "lerna": "^3.20.2"
+    }
+}

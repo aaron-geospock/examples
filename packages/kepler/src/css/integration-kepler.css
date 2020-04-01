@@ -1,0 +1,3 @@
+/* Styles that should be applied to the :root element, like global custom properties... */
+@import "_root.css";
+@import "_app.css";

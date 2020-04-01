@@ -1,0 +1,3 @@
+## Connecting Kepler to Tableau
+
+Once you have connected Tableau to GeoSpock Database (see [Using Tableau](https://docs.geospock.com/Content/tools/usingTableau.htm), you can use the [Tableau Kepler.gl extension](https://github.com/keplergl/kepler.gl-tableau/tree/master/docs) to visualise your data sheet. This can be downloaded from within Tableau through the [Tableau Extension Gallery](https://extensiongallery.tableau.com/).
