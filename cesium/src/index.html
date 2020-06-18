@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <title>Cesium demo</title>
+    <style>
+        body {
+            font-family: "sans-serif";
+        }
+        #auth, #sql, #progress {
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 1;
+        }
+        #sql form {
+            display: flex;
+            flex-direction: column;
+        }
+        #sql textarea {
+            height: 80vh;
+            width: 80vw;
+        }
+        label {
+            display: block;
+            margin: 2em 0;
+        }
+        input {
+            display: block;
+            padding: 0.5em;
+            margin: 1em 0;
+        }
+        #cesiumContainer, #auth, #sql, #progress {
+            display: none;
+        }
+        #progress .status {
+            width: 80vw;
+            height: 2em;
+            text-align: center;
+            background: #efefb3;
+            align-content: center;
+            font-family: sans-serif;
+            line-height: 2em;
+        }
+        .toolbar-left {
+            position: absolute;
+            left: 1em;
+            top: 1em;
+            z-index: 1;
+        }
+
+        .toolbar-left * {
+            width: 10em;
+        }
+        .toolbar-left .progress {
+            border-left-color: yellow;
+            background: black;
+            height: 1px;
+        }
+    </style>
+</head>
+<body>
+<div id="auth">
+    <form>
+        <label>
+            Username:
+            <input class="username">
+        </label>
+        <label>
+            Password:
+            <input type="password" class="password">
+        </label>
+        <button>Connect</button>
+    </form>
+</div>
+<div id="sql">
+    <form>
+        <textarea>
+
+        </textarea>
+        <button class="load">Load</button>
+        <button class="cancel">Cancel</button>
+    </form>
+</div>
+<div id="progress">
+    <div class="status"></div>
+</div>
+<div id="cesiumContainer">
+    <div class="toolbar-left">
+        <button class="logout">Logout</button>
+        <button class="show-sql">SQL</button>
+    </div>
+</div>
+</body>
+</html>

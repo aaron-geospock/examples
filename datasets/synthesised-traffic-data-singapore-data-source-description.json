@@ -1,0 +1,37 @@
+{
+    "format": "TABULAR",
+    "tabularFormatSeparator": ",",
+    "event": [
+        {
+            "id": "latitude",
+            "purpose": "LATITUDE",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 0
+        },
+        {
+            "id": "longitude",
+            "purpose": "LONGITUDE",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 1
+        },
+        {
+            "id": "timestamp",
+            "sqlType": "TIMESTAMP",
+            "sourceFieldIndex": 2,
+            "sourceFieldFormat": "TIMESTAMP_EPOCH_MILLIS"
+        },
+        {
+            "id": "erp_vehicle_id",
+            "purpose": "SOURCE_ID",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 3
+        }
+    ],
+    "properties": [
+        {
+            "id": "erp_vehicle_types",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 4
+        }
+    ]
+}

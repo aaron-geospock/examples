@@ -1,0 +1,58 @@
+{
+    "format": "TABULAR",
+    "tabularFormatSeparator": "\t",
+    "event" :[
+        {
+            "id": "tweetid",
+            "purpose": "SOURCE_ID",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 1
+        },
+        {
+            "id": "longitude",
+            "purpose": "LONGITUDE",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 7
+        },
+        {
+            "id": "latitude",
+            "purpose": "LATITUDE",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 8
+        },
+        {
+            "id": "timestamp",
+            "sqlType": "TIMESTAMP",
+            "sourceFieldIndex": 5,
+            "sourceFieldFormat": "TIMESTAMP_CUSTOM",
+            "sourceFieldCustomTimestampFormat": "yyyy-MM-dd HH:mm:ss"
+        }
+    ],
+    "properties": [
+        {
+            "id": "id",
+            "sqlType": "INTEGER",
+            "sourceFieldIndex": 0
+        },
+        {
+            "id": "userid",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 2
+        },
+        {
+            "id": "artistid",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 3
+        },
+        {
+            "id": "trackid",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 4
+        },
+        {
+            "id": "weekday",
+            "sqlType": "INTEGER",
+            "sourceFieldIndex": 6
+        }
+    ]
+}

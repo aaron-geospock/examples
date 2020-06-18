@@ -1,0 +1,64 @@
+{
+    "parser": "babel-eslint",
+    "env": {
+        "node": true,
+        "browser": true,
+        "es6": true
+    },
+    "plugins": [
+        "babel"
+    ],
+    "extends": [
+        "eslint:recommended", "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "impliedStrict": true,
+            "jsx": true
+        },
+        "ecmaVersion": 2019,
+        "sourceType": "module"
+    },
+    "rules": {
+        /* Standard overrides */
+        "no-unused-vars": ["error", {
+            "argsIgnorePattern": "^_|unused",
+            "varsIgnorePattern": "^_|unused"
+        }],
+
+        /* React overrides... */
+        "react/prop-types": "off",
+
+
+        /** Babel takes care of these ones for us… */
+        "camelcase": "off",
+        "no-invalid-this": "off",
+        "no-unused-expressions": "off",
+        "object-curly-spacing": "off",
+        "quotes": "off",
+        "semi": "off",
+        "valid-typeof": "off",
+
+        /* Some rules from eslint-plugin-babel, that allow things that are incorrect, but work, as Babel will transpile
+           them for us. These may reaplce similarly names rules from the main eslint ruleset. */
+        "babel/camelcase": "error",
+        "babel/no-invalid-this": "error",
+        "babel/no-unused-expressions": ["error", {
+            "allowTernary": true
+        }],
+        "babel/object-curly-spacing": ["error", "never"],
+        "babel/quotes": ["error", "double", {
+            "allowTemplateLiterals": true
+        }],
+        "babel/semi": ["error", "always"],
+        "babel/valid-typeof": "error"
+    },
+    "globals": {
+        "process": false
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    }
+}

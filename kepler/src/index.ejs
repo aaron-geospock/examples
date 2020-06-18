@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+
+    <head>
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1">
+        <title><%= htmlWebpackPlugin.options.title %></title>
+        <link href = "https://unpkg.com/sanitize.css" rel = "stylesheet" />
+        <link href = "https://unpkg.com/sanitize.css/forms.css" rel = "stylesheet" />
+        <link href = "https://unpkg.com/sanitize.css/typography.css" rel = "stylesheet" />
+    </head>
+
+    <body>
+        <div id = "application"></div>
+
+        <% if (htmlWebpackPlugin.options.devServer) { %>
+            <script src = "<%= htmlWebpackPlugin.options.devServer%>/webpack-dev-server.js" type = "text/javascript"></script>
+        <% } %>
+    </body>
+</html>

@@ -1,0 +1,1612 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n## GeoSpock DB Spark Integration - Python\nThis case study shows you how to analyze one million music tweets, using PySpark in a Zeppelin Notebook integrated with **GeoSpock DB**. The case study covers how to:\n\n- Connect Spark to **GeoSpock DB**\n- Run a number of queries on this data including visualizing the tweets based on their location, as well as artist popularity\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:38:05+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>GeoSpock DB Spark Integration - Python</h2>\n<p>This case study shows you how to analyze one million music tweets, using PySpark in a Zeppelin Notebook integrated with <strong>GeoSpock DB</strong>. The case study covers how to:</p>\n<ul>\n<li>Connect Spark to <strong>GeoSpock DB</strong></li>\n<li>Run a number of queries on this data including visualizing the tweets based on their location, as well as artist popularity</li>\n</ul>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542020_-292173740",
+      "id": "paragraph_1588067410923_143501030",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:37:44+0100",
+      "dateFinished": "2020-05-29T15:37:44+0100",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:35982"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark import SparkContext\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.dataframe import DataFrame\nfrom pyspark.sql.functions import *\nimport json\n\nspark = SparkSession.builder.appName('IntegrationExample').getOrCreate()\n\nwith open('config.json') as f:\n    config = json.load(f)\n\ndf = spark.read.format(\"jdbc\") \\\n    .option(\"url\", config[\"url\"]) \\\n    .option(\"driver\", \"io.prestosql.jdbc.PrestoDriver\") \\\n    .option(\"user\", config[\"user\"]) \\\n    .option(\"password\", config[\"password\"]) \\\n    .option(\"SSL\", True) \\\n    .option(\"dbtable\", \"geospock.default.tweet\") \\\n    .load()\n\ndf.show()",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:37:47+0100",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542020_-676583287",
+      "id": "paragraph_1587718608041_-1610310581",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35983"
+    },
+    {
+      "text": "%md\n## Query one: Visualizing the global distribution of tweets\n\nThe first query in this case study enables you to visualize where the tweets on a single day were sent from.",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:13+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Query one: Visualizing the global distribution of tweets</h2>\n<p>The first query in this case study enables you to visualize where the tweets on a single day were sent from.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542021_-1151432239",
+      "id": "paragraph_1589449013751_1342757088",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:13+0100",
+      "dateFinished": "2020-05-29T15:24:13+0100",
+      "status": "FINISHED",
+      "$$hashKey": "object:35984"
+    },
+    {
+      "text": "%pyspark\n\ndf = spark.read.format(\"jdbc\") \\\n    .option(\"url\", config[\"url\"]) \\\n    .option(\"driver\", \"io.prestosql.jdbc.PrestoDriver\") \\\n    .option(\"user\", config[\"user\"]) \\\n    .option(\"password\", config[\"password\"]) \\\n    .option(\"SSL\", True) \\\n    .option(\"query\", \"SELECT event.* FROM geospock.default.tweet AS event WHERE event.timestamp BETWEEN TIMESTAMP '2012-11-02 00:00:00' AND TIMESTAMP '2012-11-03 00:00:00'\") \\\n    .load()\n\ndf.registerTempTable(\"QueryOne\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:37:50+0100",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542021_-1291918717",
+      "id": "paragraph_1588599326962_1841735041",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35985"
+    },
+    {
+      "text": "%sql\n\nSELECT * FROM QueryOne",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:25:17+0100",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "zeppelin-leaflet",
+              "height": 745.141,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tweetid": "string",
+                      "longitude": "string",
+                      "latitude": "string",
+                      "timestamp": "string",
+                      "id": "string",
+                      "userid": "string",
+                      "artistid": "string",
+                      "trackid": "string",
+                      "weekday": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "zeppelin-leaflet": {
+                  "longitude": {
+                    "name": "longitude",
+                    "index": 1,
+                    "aggr": "sum"
+                  },
+                  "latitude": {
+                    "name": "latitude",
+                    "index": 2,
+                    "aggr": "sum"
+                  },
+                  "tooltip": {
+                    "name": "tweetid",
+                    "index": 0,
+                    "aggr": "sum"
+                  }
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542021_-464519038",
+      "id": "paragraph_1588599441491_1822277422",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:16+0100",
+      "dateFinished": "2020-05-29T15:24:25+0100",
+      "status": "ERROR",
+      "$$hashKey": "object:35986"
+    },
+    {
+      "text": "%md\n\n## Query two: Distribution of tweets across Paris\n\nFocusing on the city of Paris, this query shows the distribution of all tweets across the city.\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:18+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Query two: Distribution of tweets across Paris</h2>\n<p>Focusing on the city of Paris, this query shows the distribution of all tweets across the city.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542024_1907492631",
+      "id": "paragraph_1589444700649_-567130695",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:18+0100",
+      "dateFinished": "2020-05-29T15:24:18+0100",
+      "status": "FINISHED",
+      "$$hashKey": "object:35987"
+    },
+    {
+      "text": "%pyspark\n\ndf = spark.read.format(\"jdbc\") \\\n    .option(\"url\", config[\"url\"]) \\\n    .option(\"driver\", \"io.prestosql.jdbc.PrestoDriver\") \\\n    .option(\"user\", config[\"user\"]) \\\n    .option(\"password\", config[\"password\"]) \\\n    .option(\"SSL\", True) \\\n    .option(\"query\", \"SELECT event.* FROM geospock.default.tweet AS event WHERE st_within(st_point(event.longitude, event.latitude), st_geometryfromtext('POLYGON ((2.225 48.854, 2.250 48.881, 2.320 48.901, 2.396 48.900, 2.410 48.881, 2.412 48.8333, 2.356 48.815, 2.225 48.854))'))\") \\\n    .load()\n\ndf.registerTempTable(\"QueryTwo\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:37:52+0100",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542024_213295895",
+      "id": "paragraph_1589355716379_-25884288",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35988"
+    },
+    {
+      "text": "%sql\n\nSELECT * FROM QueryTwo",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:25:14+0100",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "zeppelin-leaflet",
+              "height": 745.141,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tweetid": "string",
+                      "longitude": "string",
+                      "latitude": "string",
+                      "timestamp": "string",
+                      "id": "string",
+                      "userid": "string",
+                      "artistid": "string",
+                      "trackid": "string",
+                      "weekday": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "zeppelin-leaflet": {
+                  "latitude": {
+                    "name": "latitude",
+                    "index": 2,
+                    "aggr": "sum"
+                  },
+                  "longitude": {
+                    "name": "longitude",
+                    "index": 1,
+                    "aggr": "sum"
+                  },
+                  "tooltip": {
+                    "name": "artistid",
+                    "index": 6,
+                    "aggr": "sum"
+                  }
+                }
+              }
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542024_-1260571881",
+      "id": "paragraph_1589355737460_5432840",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35989"
+    },
+    {
+      "text": "%md\n\n## Query three: Comparison of artist popularity in Paris\n\nThis query compares the popularity of artists mentioned in tweets in Paris against each other.\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:42+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Query three: Comparison of artist popularity in Paris</h2>\n<p>This query compares the popularity of artists mentioned in tweets in Paris against each other.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542027_-2025030283",
+      "id": "paragraph_1589444966580_-1098590",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:42+0100",
+      "dateFinished": "2020-05-29T15:24:42+0100",
+      "status": "FINISHED",
+      "$$hashKey": "object:35990"
+    },
+    {
+      "text": "%pyspark\n\ndf = spark.read.format(\"jdbc\") \\\n    .option(\"url\", config[\"url\"]) \\\n    .option(\"driver\", \"io.prestosql.jdbc.PrestoDriver\") \\\n    .option(\"user\", config[\"user\"]) \\\n    .option(\"password\", config[\"password\"]) \\\n    .option(\"SSL\", True) \\\n    .option(\"query\", \"SELECT artistid, count(*) as Count FROM geospock.default.tweet AS event WHERE st_within(st_point(event.longitude, event.latitude), st_geometryfromtext('POLYGON ((2.225 48.854, 2.250 48.881, 2.320 48.901, 2.396 48.900, 2.410 48.881, 2.412 48.8333, 2.356 48.815, 2.225 48.854))')) GROUP BY 1 ORDER BY 2 DESC LIMIT 10\") \\\n    .load()\n\ndf.registerTempTable(\"QueryThree\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:37:54+0100",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542027_1705392161",
+      "id": "paragraph_1589444990026_1200173263",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35991"
+    },
+    {
+      "text": "%sql\n\nSELECT * FROM QueryThree",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:25:11+0100",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "artistid": "string",
+                      "Count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542027_-202667745",
+      "id": "paragraph_1589445066939_-102721524",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35992"
+    },
+    {
+      "text": "%md\n\n## Query four: Global Artist Popularity\n\nSelecting artist 356772 from the data, we can see that they are the most popular artist among tweets in Paris. This query determines if they are popular across the globe as well as in Paris.\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:45+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Query four: Global Artist Popularity</h2>\n<p>Selecting artist 356772 from the data, we can see that they are the most popular artist among tweets in Paris. This query determines if they are popular across the globe as well as in Paris.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542027_750029692",
+      "id": "paragraph_1588599481259_5948454",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:45+0100",
+      "dateFinished": "2020-05-29T15:24:45+0100",
+      "status": "FINISHED",
+      "$$hashKey": "object:35993"
+    },
+    {
+      "text": "%pyspark\n\ndf = spark.read.format(\"jdbc\") \\\n    .option(\"url\", config[\"url\"]) \\\n    .option(\"driver\", \"io.prestosql.jdbc.PrestoDriver\") \\\n    .option(\"user\", config[\"user\"]) \\\n    .option(\"password\", config[\"password\"]) \\\n    .option(\"SSL\", True) \\\n    .option(\"query\", \"SELECT event.* FROM geospock.default.tweet AS event WHERE artistid = '356772'\") \\\n    .load()\n\ndf.registerTempTable(\"QueryFour\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:37:56+0100",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "zeppelin-leaflet",
+              "height": 300,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tweet_id": "string",
+                      "tweet_tweetId": "string",
+                      "tweet_userId": "string",
+                      "tweet_artistId": "string",
+                      "tweet_trackId": "string",
+                      "tweet_datetime": "string",
+                      "tweet_weekday": "string",
+                      "tweet_longitude": "string",
+                      "tweet_latitude": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "zeppelin-leaflet": {
+                  "latitude": {
+                    "name": "tweet_latitude",
+                    "index": 8,
+                    "aggr": "sum"
+                  },
+                  "longitude": {
+                    "name": "tweet_longitude",
+                    "index": 7,
+                    "aggr": "sum"
+                  },
+                  "tooltip": {
+                    "name": "tweet_artistId",
+                    "index": 3,
+                    "aggr": "sum"
+                  }
+                }
+              }
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542028_-1806930829",
+      "id": "paragraph_1588599623628_-450681670",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35994"
+    },
+    {
+      "text": "%sql\n\nselect * from QueryFour",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:25:03+0100",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "zeppelin-leaflet",
+              "height": 825.141,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tweetid": "string",
+                      "longitude": "string",
+                      "latitude": "string",
+                      "timestamp": "string",
+                      "id": "string",
+                      "userid": "string",
+                      "artistid": "string",
+                      "trackid": "string",
+                      "weekday": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "zeppelin-leaflet": {
+                  "longitude": {
+                    "name": "longitude",
+                    "index": 1,
+                    "aggr": "sum"
+                  },
+                  "latitude": {
+                    "name": "latitude",
+                    "index": 2,
+                    "aggr": "sum"
+                  },
+                  "tooltip": {
+                    "name": "tweetid",
+                    "index": 0,
+                    "aggr": "sum"
+                  }
+                }
+              }
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542028_742070887",
+      "id": "paragraph_1589445421685_-621068861",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35995"
+    },
+    {
+      "text": "%md\n\nIt looks like there are more tweets for this artist in Europe, but it is not clear. To see this more clearly, we can break the world up into boxes and look at the number of tweets in each box.\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:47+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>It looks like there are more tweets for this artist in Europe, but it is not clear. To see this more clearly, we can break the world up into boxes and look at the number of tweets in each box.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542030_216028354",
+      "id": "paragraph_1588599891445_1935787615",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:48+0100",
+      "dateFinished": "2020-05-29T15:24:48+0100",
+      "status": "FINISHED",
+      "$$hashKey": "object:35996"
+    },
+    {
+      "text": "%sql\nWITH events_boxed AS (\n    SELECT ROUND((latitude + 10.0)/20.0,0) * 20.0 - 10.0 as latitude_box, \n    ROUND((longitude + 10.0)/20.0,0) * 20.0 - 10.0 as longitude_box\n    FROM QueryFour AS event\n)\nSELECT latitude_box, longitude_box, count(*) as num_events\nFROM events_boxed\nGROUP BY latitude_box, longitude_box",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:37:58+0100",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "zeppelin-leaflet",
+              "height": 675.141,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "latitude_box": "string",
+                      "longitude_box": "string",
+                      "num_events": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "zeppelin-leaflet": {
+                  "latitude": {
+                    "name": "latitude_box",
+                    "index": 0,
+                    "aggr": "sum"
+                  },
+                  "longitude": {
+                    "name": "longitude_box",
+                    "index": 1,
+                    "aggr": "sum"
+                  },
+                  "tooltip": {
+                    "name": "num_events",
+                    "index": 2,
+                    "aggr": "sum"
+                  }
+                },
+                "ultimate-heatmap-chart": {
+                  "chartChanged": true,
+                  "parameterChanged": false,
+                  "panel": {
+                    "columnPanelOpened": true,
+                    "parameterPanelOpened": false
+                  },
+                  "spec": {
+                    "charts": {
+                      "heatmap": {
+                        "transform": {
+                          "method": "array:2-key"
+                        },
+                        "sharedAxis": false,
+                        "axis": {
+                          "xAxis": {
+                            "dimension": "multiple",
+                            "axisType": "key",
+                            "minAxisCount": 1,
+                            "description": "categorical",
+                            "name": "xAxis"
+                          },
+                          "yAxis": {
+                            "dimension": "multiple",
+                            "axisType": "key",
+                            "minAxisCount": 1,
+                            "description": "categorical",
+                            "name": "yAxis"
+                          },
+                          "zAxis": {
+                            "dimension": "single",
+                            "axisType": "aggregator",
+                            "minAxisCount": 1,
+                            "description": "numeric",
+                            "name": "zAxis"
+                          }
+                        },
+                        "parameter": {
+                          "plotBorderWidth": {
+                            "valueType": "int",
+                            "defaultValue": 1,
+                            "description": "border width of plot",
+                            "name": "plotBorderWidth"
+                          },
+                          "seriesBorderWidth": {
+                            "valueType": "int",
+                            "defaultValue": 1,
+                            "description": "border width of series",
+                            "name": "seriesBorderWidth"
+                          },
+                          "yAxisGridLineWidth": {
+                            "valueType": "int",
+                            "defaultValue": 1,
+                            "description": "width of yAxis grid line",
+                            "name": "yAxisGridLineWidth"
+                          },
+                          "colorAxisStops": {
+                            "valueType": "JSON",
+                            "defaultValue": "",
+                            "description": "colorAxis.stops",
+                            "widget": "textarea",
+                            "name": "colorAxisStops"
+                          },
+                          "useColorAxisMax": {
+                            "valueType": "boolean",
+                            "defaultValue": false,
+                            "description": "use colorAxis.max",
+                            "widget": "checkbox",
+                            "name": "useColorAxisMax"
+                          },
+                          "colorAxisMaxValue": {
+                            "valueType": "int",
+                            "defaultValue": 1,
+                            "description": "colorAxis.max",
+                            "name": "colorAxisMaxValue"
+                          },
+                          "useColorAxisMin": {
+                            "valueType": "boolean",
+                            "defaultValue": false,
+                            "description": "use colorAxis.min",
+                            "widget": "checkbox",
+                            "name": "useColorAxisMin"
+                          },
+                          "colorAxisMinValue": {
+                            "valueType": "int",
+                            "defaultValue": 0,
+                            "description": "colorAxis.min",
+                            "name": "colorAxisMinValue"
+                          },
+                          "colorAxisMaxColor": {
+                            "valueType": "string",
+                            "defaultValue": "#7cb5ec",
+                            "description": "max color of color axis",
+                            "name": "colorAxisMaxColor"
+                          },
+                          "colorAxisMinColor": {
+                            "valueType": "string",
+                            "defaultValue": "#FFFFFF",
+                            "description": "min color of color axis",
+                            "name": "colorAxisMinColor"
+                          },
+                          "seriesBorderColor": {
+                            "valueType": "string",
+                            "defaultValue": "rgb(124, 181, 236)",
+                            "description": "border color of series",
+                            "name": "seriesBorderColor"
+                          },
+                          "floatingLegend": {
+                            "valueType": "string",
+                            "defaultValue": "default",
+                            "description": "floating legend",
+                            "widget": "option",
+                            "optionValues": [
+                              "default",
+                              "top-right",
+                              "top-left"
+                            ],
+                            "name": "floatingLegend"
+                          },
+                          "rotateXAxisLabel": {
+                            "valueType": "int",
+                            "defaultValue": -45,
+                            "description": "rotate xAxis labels",
+                            "name": "rotateXAxisLabel"
+                          },
+                          "rotateYAxisLabel": {
+                            "valueType": "int",
+                            "defaultValue": 0,
+                            "description": "rotate yAxis labels",
+                            "name": "rotateYAxisLabel"
+                          },
+                          "tooltipPrecision": {
+                            "valueType": "string",
+                            "defaultValue": ".1f",
+                            "description": "precision of tooltip format without <code>:</code> (<a href=\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\">doc</a>)",
+                            "name": "tooltipPrecision"
+                          },
+                          "legendLabelFormat": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "text format of legend (<a href=\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\">doc</a>)",
+                            "name": "legendLabelFormat"
+                          },
+                          "xAxisPosition": {
+                            "valueType": "string",
+                            "defaultValue": "bottom",
+                            "description": "xAxis position",
+                            "widget": "option",
+                            "optionValues": [
+                              "bottom",
+                              "top"
+                            ],
+                            "name": "xAxisPosition"
+                          },
+                          "yAxisPosition": {
+                            "valueType": "string",
+                            "defaultValue": "left",
+                            "description": "yAxis position",
+                            "widget": "option",
+                            "optionValues": [
+                              "left",
+                              "right"
+                            ],
+                            "name": "yAxisPosition"
+                          },
+                          "showDataLabel": {
+                            "valueType": "boolean",
+                            "defaultValue": true,
+                            "description": "show data label",
+                            "widget": "checkbox",
+                            "name": "showDataLabel"
+                          },
+                          "showLegend": {
+                            "valueType": "boolean",
+                            "defaultValue": true,
+                            "description": "show legend",
+                            "widget": "checkbox",
+                            "name": "showLegend"
+                          },
+                          "legendPosition": {
+                            "valueType": "string",
+                            "defaultValue": "bottom",
+                            "description": "position of legend",
+                            "widget": "option",
+                            "optionValues": [
+                              "bottom",
+                              "top",
+                              "left",
+                              "right"
+                            ],
+                            "name": "legendPosition"
+                          },
+                          "legendLayout": {
+                            "valueType": "string",
+                            "defaultValue": "horizontal",
+                            "description": "layout of legend",
+                            "widget": "option",
+                            "optionValues": [
+                              "vertical",
+                              "horizontal"
+                            ],
+                            "name": "legendLayout"
+                          },
+                          "legendAlign": {
+                            "valueType": "string",
+                            "defaultValue": "center",
+                            "description": "layout of legend",
+                            "widget": "option",
+                            "optionValues": [
+                              "center",
+                              "right",
+                              "left"
+                            ],
+                            "name": "legendAlign"
+                          },
+                          "subTitle": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "sub title of chart",
+                            "name": "subTitle"
+                          },
+                          "mainTitle": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "main title of chart",
+                            "name": "mainTitle"
+                          },
+                          "xAxisUnit": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "unit of xAxis",
+                            "name": "xAxisUnit"
+                          },
+                          "yAxisUnit": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "unit of yAxis",
+                            "name": "yAxisUnit"
+                          },
+                          "zAxisUnit": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "unit of zAxis",
+                            "name": "zAxisUnit"
+                          },
+                          "xAxisName": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "name of xAxis",
+                            "name": "xAxisName"
+                          },
+                          "yAxisName": {
+                            "valueType": "string",
+                            "defaultValue": "",
+                            "description": "name of yAxis",
+                            "name": "yAxisName"
+                          }
+                        }
+                      }
+                    },
+                    "initialized": false,
+                    "version": {
+                      "axis": "{\"heatmap\":[{\"dimension\":\"multiple\",\"axisType\":\"key\",\"minAxisCount\":1,\"description\":\"categorical\",\"name\":\"xAxis\"},{\"dimension\":\"multiple\",\"axisType\":\"key\",\"minAxisCount\":1,\"description\":\"categorical\",\"name\":\"yAxis\"},{\"dimension\":\"single\",\"axisType\":\"aggregator\",\"minAxisCount\":1,\"description\":\"numeric\",\"name\":\"zAxis\"}]}",
+                      "parameter": "{\"heatmap\":[{\"valueType\":\"int\",\"defaultValue\":1,\"description\":\"border width of plot\",\"name\":\"plotBorderWidth\"},{\"valueType\":\"int\",\"defaultValue\":1,\"description\":\"border width of series\",\"name\":\"seriesBorderWidth\"},{\"valueType\":\"int\",\"defaultValue\":1,\"description\":\"width of yAxis grid line\",\"name\":\"yAxisGridLineWidth\"},{\"valueType\":\"JSON\",\"defaultValue\":\"\",\"description\":\"colorAxis.stops\",\"widget\":\"textarea\",\"name\":\"colorAxisStops\"},{\"valueType\":\"boolean\",\"defaultValue\":false,\"description\":\"use colorAxis.max\",\"widget\":\"checkbox\",\"name\":\"useColorAxisMax\"},{\"valueType\":\"int\",\"defaultValue\":1,\"description\":\"colorAxis.max\",\"name\":\"colorAxisMaxValue\"},{\"valueType\":\"boolean\",\"defaultValue\":false,\"description\":\"use colorAxis.min\",\"widget\":\"checkbox\",\"name\":\"useColorAxisMin\"},{\"valueType\":\"int\",\"defaultValue\":0,\"description\":\"colorAxis.min\",\"name\":\"colorAxisMinValue\"},{\"valueType\":\"string\",\"defaultValue\":\"#7cb5ec\",\"description\":\"max color of color axis\",\"name\":\"colorAxisMaxColor\"},{\"valueType\":\"string\",\"defaultValue\":\"#FFFFFF\",\"description\":\"min color of color axis\",\"name\":\"colorAxisMinColor\"},{\"valueType\":\"string\",\"defaultValue\":\"rgb(124, 181, 236)\",\"description\":\"border color of series\",\"name\":\"seriesBorderColor\"},{\"valueType\":\"string\",\"defaultValue\":\"default\",\"description\":\"floating legend\",\"widget\":\"option\",\"optionValues\":[\"default\",\"top-right\",\"top-left\"],\"name\":\"floatingLegend\"},{\"valueType\":\"int\",\"defaultValue\":-45,\"description\":\"rotate xAxis labels\",\"name\":\"rotateXAxisLabel\"},{\"valueType\":\"int\",\"defaultValue\":0,\"description\":\"rotate yAxis labels\",\"name\":\"rotateYAxisLabel\"},{\"valueType\":\"string\",\"defaultValue\":\".1f\",\"description\":\"precision of tooltip format without <code>:</code> (<a href=\\\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\\\">doc</a>)\",\"name\":\"tooltipPrecision\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"text format of legend (<a href=\\\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\\\">doc</a>)\",\"name\":\"legendLabelFormat\"},{\"valueType\":\"string\",\"defaultValue\":\"bottom\",\"description\":\"xAxis position\",\"widget\":\"option\",\"optionValues\":[\"bottom\",\"top\"],\"name\":\"xAxisPosition\"},{\"valueType\":\"string\",\"defaultValue\":\"left\",\"description\":\"yAxis position\",\"widget\":\"option\",\"optionValues\":[\"left\",\"right\"],\"name\":\"yAxisPosition\"},{\"valueType\":\"boolean\",\"defaultValue\":true,\"description\":\"show data label\",\"widget\":\"checkbox\",\"name\":\"showDataLabel\"},{\"valueType\":\"boolean\",\"defaultValue\":true,\"description\":\"show legend\",\"widget\":\"checkbox\",\"name\":\"showLegend\"},{\"valueType\":\"string\",\"defaultValue\":\"bottom\",\"description\":\"position of legend\",\"widget\":\"option\",\"optionValues\":[\"bottom\",\"top\",\"left\",\"right\"],\"name\":\"legendPosition\"},{\"valueType\":\"string\",\"defaultValue\":\"horizontal\",\"description\":\"layout of legend\",\"widget\":\"option\",\"optionValues\":[\"vertical\",\"horizontal\"],\"name\":\"legendLayout\"},{\"valueType\":\"string\",\"defaultValue\":\"center\",\"description\":\"layout of legend\",\"widget\":\"option\",\"optionValues\":[\"center\",\"right\",\"left\"],\"name\":\"legendAlign\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"sub title of chart\",\"name\":\"subTitle\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"main title of chart\",\"name\":\"mainTitle\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"unit of xAxis\",\"name\":\"xAxisUnit\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"unit of yAxis\",\"name\":\"yAxisUnit\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"unit of zAxis\",\"name\":\"zAxisUnit\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"name of xAxis\",\"name\":\"xAxisName\"},{\"valueType\":\"string\",\"defaultValue\":\"\",\"description\":\"name of yAxis\",\"name\":\"yAxisName\"}]}"
+                    }
+                  },
+                  "chart": {
+                    "current": "heatmap",
+                    "available": [
+                      "heatmap"
+                    ]
+                  },
+                  "axis": {
+                    "heatmap": {
+                      "xAxis": [
+                        {
+                          "name": "latitude_box",
+                          "index": 0,
+                          "aggr": "sum"
+                        }
+                      ],
+                      "yAxis": [
+                        {
+                          "name": "longitude_box",
+                          "index": 1,
+                          "aggr": "sum"
+                        }
+                      ],
+                      "zAxis": {
+                        "name": "num_events",
+                        "index": 2,
+                        "aggr": "sum"
+                      }
+                    }
+                  },
+                  "sharedAxis": {},
+                  "axisSpecs": {
+                    "heatmap": [
+                      {
+                        "dimension": "multiple",
+                        "axisType": "key",
+                        "minAxisCount": 1,
+                        "description": "categorical",
+                        "name": "xAxis"
+                      },
+                      {
+                        "dimension": "multiple",
+                        "axisType": "key",
+                        "minAxisCount": 1,
+                        "description": "categorical",
+                        "name": "yAxis"
+                      },
+                      {
+                        "dimension": "single",
+                        "axisType": "aggregator",
+                        "minAxisCount": 1,
+                        "description": "numeric",
+                        "name": "zAxis"
+                      }
+                    ]
+                  },
+                  "parameter": {
+                    "heatmap": {
+                      "plotBorderWidth": 1,
+                      "seriesBorderWidth": 1,
+                      "yAxisGridLineWidth": 1,
+                      "colorAxisStops": "",
+                      "useColorAxisMax": false,
+                      "colorAxisMaxValue": 1,
+                      "useColorAxisMin": false,
+                      "colorAxisMinValue": 0,
+                      "colorAxisMaxColor": "#7cb5ec",
+                      "colorAxisMinColor": "#FFFFFF",
+                      "seriesBorderColor": "rgb(124, 181, 236)",
+                      "floatingLegend": "default",
+                      "rotateXAxisLabel": -45,
+                      "rotateYAxisLabel": 0,
+                      "tooltipPrecision": ".1f",
+                      "legendLabelFormat": "",
+                      "xAxisPosition": "bottom",
+                      "yAxisPosition": "left",
+                      "showDataLabel": true,
+                      "showLegend": true,
+                      "legendPosition": "bottom",
+                      "legendLayout": "horizontal",
+                      "legendAlign": "center",
+                      "subTitle": "",
+                      "mainTitle": "",
+                      "xAxisUnit": "",
+                      "yAxisUnit": "",
+                      "zAxisUnit": "",
+                      "xAxisName": "",
+                      "yAxisName": ""
+                    }
+                  },
+                  "paramSpecs": {
+                    "heatmap": [
+                      {
+                        "valueType": "int",
+                        "defaultValue": 1,
+                        "description": "border width of plot",
+                        "name": "plotBorderWidth"
+                      },
+                      {
+                        "valueType": "int",
+                        "defaultValue": 1,
+                        "description": "border width of series",
+                        "name": "seriesBorderWidth"
+                      },
+                      {
+                        "valueType": "int",
+                        "defaultValue": 1,
+                        "description": "width of yAxis grid line",
+                        "name": "yAxisGridLineWidth"
+                      },
+                      {
+                        "valueType": "JSON",
+                        "defaultValue": "",
+                        "description": "colorAxis.stops",
+                        "widget": "textarea",
+                        "name": "colorAxisStops"
+                      },
+                      {
+                        "valueType": "boolean",
+                        "defaultValue": false,
+                        "description": "use colorAxis.max",
+                        "widget": "checkbox",
+                        "name": "useColorAxisMax"
+                      },
+                      {
+                        "valueType": "int",
+                        "defaultValue": 1,
+                        "description": "colorAxis.max",
+                        "name": "colorAxisMaxValue"
+                      },
+                      {
+                        "valueType": "boolean",
+                        "defaultValue": false,
+                        "description": "use colorAxis.min",
+                        "widget": "checkbox",
+                        "name": "useColorAxisMin"
+                      },
+                      {
+                        "valueType": "int",
+                        "defaultValue": 0,
+                        "description": "colorAxis.min",
+                        "name": "colorAxisMinValue"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "#7cb5ec",
+                        "description": "max color of color axis",
+                        "name": "colorAxisMaxColor"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "#FFFFFF",
+                        "description": "min color of color axis",
+                        "name": "colorAxisMinColor"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "rgb(124, 181, 236)",
+                        "description": "border color of series",
+                        "name": "seriesBorderColor"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "default",
+                        "description": "floating legend",
+                        "widget": "option",
+                        "optionValues": [
+                          "default",
+                          "top-right",
+                          "top-left"
+                        ],
+                        "name": "floatingLegend"
+                      },
+                      {
+                        "valueType": "int",
+                        "defaultValue": -45,
+                        "description": "rotate xAxis labels",
+                        "name": "rotateXAxisLabel"
+                      },
+                      {
+                        "valueType": "int",
+                        "defaultValue": 0,
+                        "description": "rotate yAxis labels",
+                        "name": "rotateYAxisLabel"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": ".1f",
+                        "description": "precision of tooltip format without <code>:</code> (<a href=\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\">doc</a>)",
+                        "name": "tooltipPrecision"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "text format of legend (<a href=\"http://www.highcharts.com/docs/chart-concepts/labels-and-string-formatting\">doc</a>)",
+                        "name": "legendLabelFormat"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "bottom",
+                        "description": "xAxis position",
+                        "widget": "option",
+                        "optionValues": [
+                          "bottom",
+                          "top"
+                        ],
+                        "name": "xAxisPosition"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "left",
+                        "description": "yAxis position",
+                        "widget": "option",
+                        "optionValues": [
+                          "left",
+                          "right"
+                        ],
+                        "name": "yAxisPosition"
+                      },
+                      {
+                        "valueType": "boolean",
+                        "defaultValue": true,
+                        "description": "show data label",
+                        "widget": "checkbox",
+                        "name": "showDataLabel"
+                      },
+                      {
+                        "valueType": "boolean",
+                        "defaultValue": true,
+                        "description": "show legend",
+                        "widget": "checkbox",
+                        "name": "showLegend"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "bottom",
+                        "description": "position of legend",
+                        "widget": "option",
+                        "optionValues": [
+                          "bottom",
+                          "top",
+                          "left",
+                          "right"
+                        ],
+                        "name": "legendPosition"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "horizontal",
+                        "description": "layout of legend",
+                        "widget": "option",
+                        "optionValues": [
+                          "vertical",
+                          "horizontal"
+                        ],
+                        "name": "legendLayout"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "center",
+                        "description": "layout of legend",
+                        "widget": "option",
+                        "optionValues": [
+                          "center",
+                          "right",
+                          "left"
+                        ],
+                        "name": "legendAlign"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "sub title of chart",
+                        "name": "subTitle"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "main title of chart",
+                        "name": "mainTitle"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "unit of xAxis",
+                        "name": "xAxisUnit"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "unit of yAxis",
+                        "name": "yAxisUnit"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "unit of zAxis",
+                        "name": "zAxisUnit"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "name of xAxis",
+                        "name": "xAxisName"
+                      },
+                      {
+                        "valueType": "string",
+                        "defaultValue": "",
+                        "description": "name of yAxis",
+                        "name": "yAxisName"
+                      }
+                    ]
+                  }
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542031_-1899637562",
+      "id": "paragraph_1588599705863_-777292589",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35997"
+    },
+    {
+      "text": "%md\n\nFrom this, we can identify that the artist is broadly popular in europe, but also has clusters of popularity in South America, India, and the US.\n\n## Query five: Identify the pattern of tweets from a selected user\n\nThis queries visualizes the location of the tweets for a selected user.\n",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:50+0100",
+      "config": {
+        "editorSetting": {
+          "language": "text",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/text",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<p>From this, we can identify that the artist is broadly popular in europe, but also has clusters of popularity in South America, India, and the US.</p>\n<h2>Query five: Identify the pattern of tweets from a selected user</h2>\n<p>This queries visualizes the location of the tweets for a selected user.</p>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542031_-220928882",
+      "id": "paragraph_1588600265392_-1974051014",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "dateStarted": "2020-05-29T15:24:50+0100",
+      "dateFinished": "2020-05-29T15:24:50+0100",
+      "status": "FINISHED",
+      "$$hashKey": "object:35998"
+    },
+    {
+      "text": "%pyspark\n\ndf = spark.read.format(\"jdbc\") \\\n    .option(\"url\", config[\"url\"]) \\\n    .option(\"driver\", \"io.prestosql.jdbc.PrestoDriver\") \\\n    .option(\"user\", config[\"user\"]) \\\n    .option(\"password\", config[\"password\"]) \\\n    .option(\"SSL\", True) \\\n    .option(\"query\", \"SELECT event.* FROM geospock.default.tweet AS event WHERE userid = '614442242' AND event.latitude BETWEEN 45 AND 55 AND event.longitude BETWEEN -5 AND 10\") \\\n    .load()\n\ndf.registerTempTable(\"QueryFive\")",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:38:00+0100",
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorHide": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542031_2077244416",
+      "id": "paragraph_1589445748206_629243229",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:35999"
+    },
+    {
+      "text": "%sql\nSELECT * FROM QueryFive\n ",
+      "user": "anonymous",
+      "dateUpdated": "2020-05-29T15:24:57+0100",
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "zeppelin-leaflet",
+              "height": 300,
+              "optionOpen": true,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "tweetid": "string",
+                      "longitude": "string",
+                      "latitude": "string",
+                      "timestamp": "string",
+                      "id": "string",
+                      "userid": "string",
+                      "artistid": "string",
+                      "trackid": "string",
+                      "weekday": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "zeppelin-leaflet": {
+                  "latitude": {
+                    "name": "latitude",
+                    "index": 2,
+                    "aggr": "sum"
+                  },
+                  "longitude": {
+                    "name": "longitude",
+                    "index": 1,
+                    "aggr": "sum"
+                  },
+                  "tooltip": {
+                    "name": "tweetid",
+                    "index": 0,
+                    "aggr": "sum"
+                  }
+                }
+              },
+              "commonSetting": {}
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1590761542031_1455244472",
+      "id": "paragraph_1588600394944_426424630",
+      "dateCreated": "2020-05-29T15:12:22+0100",
+      "status": "READY",
+      "$$hashKey": "object:36000"
+    }
+  ],
+  "name": "GeoSpock DB Spark Integration - Python",
+  "id": "2FC71TGZK",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.9.0-preview1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/GeoSpock DB Spark Integration - Python"
+}

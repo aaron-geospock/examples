@@ -1,0 +1,72 @@
+{
+    "format": "TABULAR",
+    "tabularFormatSeparator": ",",
+    "event": [
+        {
+            "id": "trip_id",
+            "purpose": "SOURCE_ID",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 0
+        },
+        {
+            "id": "latitude",
+            "purpose": "LATITUDE",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 1
+        },
+        {
+            "id": "longitude",
+            "purpose": "LONGITUDE",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 2
+        },
+        {
+            "id": "timestamp",
+            "sqlType": "TIMESTAMP",
+            "sourceFieldIndex": 4,
+            "sourceFieldFormat": "TIMESTAMP_EPOCH_MILLIS"
+        }
+    ],
+    "properties": [
+        {
+            "id": "distance",
+            "sqlType": "DOUBLE",
+            "sourceFieldIndex": 3
+        },
+        {
+            "id": "vendor",
+            "sqlType": "INTEGER",
+            "sourceFieldIndex": 5
+        },
+        {
+            "id": "passengers",
+            "sqlType": "INTEGER",
+            "sourceFieldIndex": 6
+        },
+        {
+            "id": "rate_code",
+            "sqlType": "INTEGER",
+            "sourceFieldIndex": 7
+        },
+        {
+            "id": "payment_type",
+            "sqlType": "INTEGER",
+            "sourceFieldIndex": 8
+        },
+        {
+            "id": "tip_group",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 9
+        },
+        {
+            "id": "fare_group",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 10
+        },
+        {
+            "id": "distance_group",
+            "sqlType": "VARCHAR",
+            "sourceFieldIndex": 11
+        }
+    ]
+}
