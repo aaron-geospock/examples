@@ -83,6 +83,8 @@ For details on how to install the GeoSpock DB refer to the available GeoSpock DB
 
 1. Under the _Enterprise authentication_ section, uncomment and override the default values for the 
 `ldaps_bind_pattern`, `ldaps_server_host` and `ldaps_server_port` variables with the appropriate from your LDAP server.
+    - Note that `$` is an escape character in terraform, so a bind pattern of `uid=${USER},ou=presto,dc=geospock,dc=com` will
+have to be entered as `uid=$${USER},ou=presto,dc=geospock,dc=com`
     
     _Default tfvars file excerpt:_
     ```
